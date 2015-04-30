@@ -32,6 +32,13 @@ static const CGFloat kHelpViewShift = 10.0f;
 
 static const CGFloat kGuideColor[] = {1.0f, 0.82f, 0.7f, 1.0f};
 
+static const BOOL kAnimatedShuffle = NO;
+
+static const BOOL kDisplayInitialState = NO;
+
+static const BOOL kHasHelp = NO;
+
+
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 static NSString *const kWinController = @"PZWinControllerDefaults";
@@ -126,7 +133,11 @@ typedef void(^PZTileMoveBlock)(void);
     }
     else if (!self.isGameStarted) {
         // propose tutorial if necessary
-        [self showHelp];
+        if(kHasHelp) {
+            [self showHelp];
+        } else {
+            [self shuffle];
+        }
         self.gameStarted = YES;
     }
 }
@@ -318,7 +329,10 @@ typedef void(^PZTileMoveBlock)(void);
             if (kSupportsShadows) {
                 [tileLayer setupPuzzleShadow];
             }
-            [self.layersView.layer addSublayer:tileLayer];
+            if(kDisplayInitialState || [self hasSavedState]) {
+                tile.isDisplayed = YES;
+                [self.layersView.layer addSublayer:tileLayer];
+            }
         }
     }
 }
@@ -407,8 +421,16 @@ typedef void(^PZTileMoveBlock)(void);
     }
 }
 
+- (void)updateAllTilesLocations {
+    [self updateTilesLocations:[self puzzle].allTiles];
+}
+
 - (void)updateTilesLocations:(NSArray *)aTiles {
     for (id<IPZTile>tile in aTiles) {
+        if(![tile isDisplayed]) {
+            [[[self layersView]layer]addSublayer:tile.representedObject];
+            tile.isDisplayed = YES;
+        }
         CGRect frame = [self rectForTileAtLocation:tile.currentLocation];
         ((CALayer *)tile.representedObject).frame = frame;
     }
@@ -535,6 +557,9 @@ typedef void(^PZTileMoveBlock)(void);
 - (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves
                      completionHandler:(void (^)(void))aHandler {
     if (0 == aNumberOfMoves) {
+        if(!kAnimatedShuffle) {
+            [self updateAllTilesLocations];
+        }
         // we done shuffling
         self.view.userInteractionEnabled = YES;
         aHandler();
@@ -542,13 +567,16 @@ typedef void(^PZTileMoveBlock)(void);
     }
 
     [self.puzzle moveTileToRandomLocationWithCompletionHandler:^(NSArray *aTiles, PZMoveDirection aDirection) {
-        [CATransaction setAnimationDuration:kAutoMoveAnimationDuration];
+        
+        [CATransaction setAnimationDuration:kAnimatedShuffle ? kAutoMoveAnimationDuration:0.0f];
         [CATransaction setCompletionBlock:^{
             [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1
                                completionHandler:aHandler];
         }];
-        [self moveLayersOfTiles:aTiles direction:aDirection];
-        [self updateZIndices];
+        if(kAnimatedShuffle) {
+            [self moveLayersOfTiles:aTiles direction:aDirection];
+            [self updateZIndices];
+        }
     }];
 }
 

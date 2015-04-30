@@ -18,4 +18,6 @@
 // you may put here any object for your convenience
 @property (nonatomic, strong) id representedObject;
 
+@property (nonatomic, assign) BOOL isDisplayed;
+
 @end

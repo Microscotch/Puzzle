@@ -15,6 +15,7 @@
         _image = anImage;
         _currentLocation = aCurrentLocation;
         _winLocation = aWinLocation;
+        _isDisplayed = NO;
     }
     return self;
 }

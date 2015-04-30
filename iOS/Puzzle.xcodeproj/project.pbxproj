@@ -358,7 +358,7 @@
 			name = PuzzleTests;
 			productName = PuzzleTests;
 			productReference = B7AEF1DF159C15F9006EFEF0 /* PuzzleTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -368,6 +368,14 @@
 			attributes = {
 				CLASSPREFIX = PZ;
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					B7AEF1BA159C15F8006EFEF0 = {
+						DevelopmentTeam = DQD6RWQ9QA;
+					};
+					B7AEF1DE159C15F9006EFEF0 = {
+						DevelopmentTeam = DQD6RWQ9QA;
+					};
+				};
 			};
 			buildConfigurationList = B7AEF1B5159C15F8006EFEF0 /* Build configuration list for PBXProject "Puzzle" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -616,10 +624,13 @@
 		B7AEF1F2159C15F9006EFEF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Puzzle/Puzzle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -628,10 +639,13 @@
 		B7AEF1F3159C15F9006EFEF0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Puzzle/Puzzle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -641,6 +655,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Puzzle.app/Puzzle";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -649,6 +665,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "PuzzleTests/PuzzleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -658,6 +675,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Puzzle.app/Puzzle";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -666,6 +685,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "PuzzleTests/PuzzleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};

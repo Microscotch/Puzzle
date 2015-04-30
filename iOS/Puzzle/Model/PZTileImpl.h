@@ -17,5 +17,6 @@
 @property (nonatomic, assign) PZTileLocation winLocation;
 @property (nonatomic, assign) PZTileLocation currentLocation;
 @property (nonatomic, strong) id representedObject;
+@property (nonatomic, assign) BOOL isDisplayed;
 
 @end
