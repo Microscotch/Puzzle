@@ -22,6 +22,7 @@
 //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.viewController = [[PZViewController alloc] initWithNibName:@"PZViewController_iPhone" bundle:nil];
         imageFileName = @"Morpho";
+    imageFileName = @"IMG_0184";
 //    imageFileName = @"Tiles_iPhone";
 //    }
 //    else {
