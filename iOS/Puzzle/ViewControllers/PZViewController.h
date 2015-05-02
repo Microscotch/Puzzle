@@ -17,7 +17,7 @@
     PZPuzzle *_puzzle;
 }
 
-@property (nonatomic, weak) IBOutlet UIView *layersView;
+@property (nonatomic, weak) IBOutlet UIImageView *layersView;
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *movesLabel;
 @property (nonatomic, weak) IBOutlet UIButton *highScoresButton;

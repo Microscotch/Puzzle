@@ -16,7 +16,7 @@
 @import QuartzCore;
 
 ////////////////////////////////////////////////////////////////////////////////
-static const BOOL kSupportsShadows = YES;
+static const BOOL kSupportsShadows = NO;
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 40;
 
@@ -34,9 +34,11 @@ static const CGFloat kGuideColor[] = {1.0f, 0.82f, 0.7f, 1.0f};
 
 static const BOOL kAnimatedShuffle = NO;
 
-static const BOOL kDisplayInitialState = NO;
+static const BOOL kDisplayInitialState = YES;
 
 static const BOOL kHasHelp = NO;
+
+static const BOOL originalCode = NO;
 
 
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
@@ -83,6 +85,8 @@ typedef void(^PZTileMoveBlock)(void);
 // tap gesture recognizer
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
+
+@property (nonatomic,assign) CGSize scaledImageSize;
 
 @end
 
@@ -163,15 +167,31 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (PZPuzzle *)puzzle {
     if (nil == _puzzle) {
-        UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
-        CGFloat scale = [UIScreen mainScreen].scale;
-        CGRect rect = CGRectMake(CGRectGetMinX([self tilesAreaInView]) * scale,
-                                 (CGRectGetMinY([self tilesAreaInView]) + kHelpShift) * scale,
-                                 CGRectGetWidth([self tilesAreaInView]) * scale,
-                                 CGRectGetHeight([self tilesAreaInView]) * scale);
-        CGImageRef image = CGImageCreateWithImageInRect([wholeImage CGImage], rect);
-        UIImage *tilesImage = [UIImage imageWithCGImage:image];
-        CGImageRelease(image);
+        UIImage *tilesImage;
+        if(originalCode) {
+            UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
+            CGRect screenRect = [[UIScreen mainScreen]bounds];
+            CGFloat scale = [UIScreen mainScreen].scale;
+            CGSize screenSize = screenRect.size;
+            CGRect rect = CGRectMake(CGRectGetMinX([self tilesAreaInView]) * scale,
+                                     (CGRectGetMinY([self tilesAreaInView]) + kHelpShift) * scale,
+                                     CGRectGetWidth([self tilesAreaInView]) * scale,
+                                     CGRectGetHeight([self tilesAreaInView]) * scale);
+            CGImageRef image = CGImageCreateWithImageInRect([wholeImage CGImage], rect);
+            tilesImage = [UIImage imageWithCGImage:image];
+            CGImageRelease(image);
+        } else {
+            UIImageView *iv = [self layersView];
+            iv.image = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
+            CGSize imageSize = iv.image.size;
+            CGFloat imageScale = fminf(CGRectGetWidth(iv.bounds)/imageSize.width, CGRectGetHeight(iv.bounds)/imageSize.height);
+            _scaledImageSize = CGSizeMake(imageSize.width*imageScale, imageSize.height*imageScale);
+            UIGraphicsBeginImageContextWithOptions(_scaledImageSize, NO, 1.0);
+            [iv.image drawInRect:CGRectMake(0, 0, _scaledImageSize.width, _scaledImageSize.height)];
+            tilesImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            iv.image = nil;
+        }
         
         NSDictionary *state = [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
         _puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize state:state];
@@ -460,17 +480,36 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (CGRect)tilesAreaOnScreen {
-    CGRect result = [self tilesAreaInView];
-    return self.isHelpMode ? CGRectOffset(result, 0.0, kHelpShift) : result;
+    if(originalCode) {
+        CGRect result = [self tilesAreaInView];
+        return self.isHelpMode ? CGRectOffset(result, 0.0, kHelpShift) : result;
+    } else {
+        static CGRect result = {};
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            CGRect tilesArea = [self tilesAreaInView];
+            CGPoint origin = [[self layersView]frame].origin;
+            result = CGRectMake(origin.x+CGRectGetMinX(tilesArea), origin.y+CGRectGetMinY(tilesArea), CGRectGetWidth(tilesArea), CGRectGetHeight(tilesArea));
+        });
+        return result;
+    }
+    
 }
 
 - (CGRect)tilesAreaInView {
     static CGRect result = {};
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        result = CGRectMake(12.0, 82.0, 296.0, 296.0);
+        if(originalCode) {
+            result = CGRectMake(12.0, 82.0, 296.0, 296.0);
+        } else {
+            CGPoint origin = [[self layersView]frame].origin;
+            CGSize size = [[self layersView]frame].size;
+            result = CGRectMake((size.width/2)-(_scaledImageSize.width)/2, (size.height/2)-(_scaledImageSize.height)/2, _scaledImageSize.width, _scaledImageSize.height);
+        }
     });
     return result;
+    //return _imageRect;
 }
 
 - (CGFloat)tileWidth {
@@ -502,10 +541,16 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation {
-    // we allow 1.0 inset for border
-    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesAreaInView]),
-                                  CGRectGetMinY([self tilesAreaInView]) + [self tileHeight] * aLocation.y,
-                                  [self tileWidth], [self tileHeight]), 1.0, 1.0);
+    if(originalCode) {
+        // we allow 1.0 inset for border
+        return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesAreaInView]),
+                                      CGRectGetMinY([self tilesAreaInView]) + [self tileHeight] * aLocation.y,
+                                      [self tileWidth], [self tileHeight]), 1.0, 1.0);
+    } else {
+        return CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesAreaInView]),
+                          CGRectGetMinY([self tilesAreaInView]) + [self tileHeight] * aLocation.y,
+                          [self tileWidth], [self tileHeight]);
+    }
 }
 
 #pragma mark -

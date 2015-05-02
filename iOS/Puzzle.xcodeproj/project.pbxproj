@@ -57,6 +57,9 @@
 		B7EEBE2215A0E69600EC5BBB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2115A0E69600EC5BBB /* Default.png */; };
 		B7EEBE3515A0EE9200EC5BBB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3115A0EE9100EC5BBB /* Icon.png */; };
 		B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */; };
+		E44CDA221AF405D90020B631 /* Morpho.png in Resources */ = {isa = PBXBuildFile; fileRef = E44CDA211AF405D90020B631 /* Morpho.png */; };
+		E44CDA281AF43F400020B631 /* IMG_0184.png in Resources */ = {isa = PBXBuildFile; fileRef = E44CDA271AF43F400020B631 /* IMG_0184.png */; };
+		E44CDA2A1AF4414B0020B631 /* IMG_0156.png in Resources */ = {isa = PBXBuildFile; fileRef = E44CDA291AF4414B0020B631 /* IMG_0156.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +133,9 @@
 		B7EEBE2115A0E69600EC5BBB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B7EEBE3115A0EE9100EC5BBB /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		E44CDA211AF405D90020B631 /* Morpho.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Morpho.png; sourceTree = "<group>"; };
+		E44CDA271AF43F400020B631 /* IMG_0184.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0184.png; sourceTree = "<group>"; };
+		E44CDA291AF4414B0020B631 /* IMG_0156.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0156.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +294,9 @@
 		B7F5E80F16276B8D00AA2C24 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E44CDA291AF4414B0020B631 /* IMG_0156.png */,
+				E44CDA271AF43F400020B631 /* IMG_0184.png */,
+				E44CDA211AF405D90020B631 /* Morpho.png */,
 				B7AFEAF5162D37D8006D95AE /* Bubble@2x.png */,
 				B70858E1160EFEC7007B1204 /* Default@2x.png */,
 				B7B00A5C15FF0C830085434D /* Background_iPhone.png */,
@@ -407,6 +416,7 @@
 				B7EEBE3515A0EE9200EC5BBB /* Icon.png in Resources */,
 				B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */,
 				B7B00A5E15FF0C840085434D /* Background_iPhone.png in Resources */,
+				E44CDA2A1AF4414B0020B631 /* IMG_0156.png in Resources */,
 				B7B00A5F15FF0C840085434D /* Tiles_iPhone.png in Resources */,
 				B7B00A6615FF170C0085434D /* Frame_iPhone.png in Resources */,
 				B7BA97D515FF1D5B002E296D /* Background_iPhone@2x.png in Resources */,
@@ -416,11 +426,13 @@
 				B728774B1605225D00FC253F /* Localizable.strings in Resources */,
 				B70858E2160EFEC7007B1204 /* Default@2x.png in Resources */,
 				B70858E7160F96BA007B1204 /* PZHighscoresViewController.xib in Resources */,
+				E44CDA221AF405D90020B631 /* Morpho.png in Resources */,
 				B70858F916118C1B007B1204 /* HighscoresButton@2x.png in Resources */,
 				B70858FA16118C1B007B1204 /* HighscoresButtonPressed@2x.png in Resources */,
 				B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */,
 				B7D5506A162A7E9D00DC1047 /* HelpButton@2x.png in Resources */,
 				B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */,
+				E44CDA281AF43F400020B631 /* IMG_0184.png in Resources */,
 				B7AFEAF6162D37D9006D95AE /* Bubble@2x.png in Resources */,
 				B7C8166B163FAEF9003B9AED /* WinMessage@2x.png in Resources */,
 				B7A4763C164B6ACA00EFC50B /* HelpMessage@2x.png in Resources */,
